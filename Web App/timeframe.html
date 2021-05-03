@@ -1,0 +1,72 @@
+
+<html>
+<style type="text/css">
+table{
+        border: 1px solid black;
+        border-collapse: collapse;
+}
+
+td, th {
+        border: 1px solid black;
+        text-align: center;
+        padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function Dateformat(raw){
+        date = raw.substring(0,10);
+        date = date.concat(" ");
+        date = date.concat(raw.substring(11,16));
+        date = date.concat(":00");
+        return(date);
+}
+
+
+$(function () {
+        var table = $('<table width="100%"></table>');
+        $("#Submit").click(function () {
+                $("table").remove();
+                var startraw = $("#StartTime").val();
+                var $start = Dateformat(startraw);
+                var endraw = $("#EndTime").val();
+                var $end = Dateformat(endraw);
+
+        $.ajax({
+                method: "POST",
+                url: "time.php",
+                data: { start:$start , end:$end }
+        })
+        .done(function( message ) {
+                table.append(message);
+                $("#TableContainer").append(table);
+
+        })
+        .fail(function( message ) {
+                $("#TableContainer").text(message);
+        });
+    });
+});
+
+</script>
+
+
+<form style="text-align: center">
+  <label for="StartTime">Timeframe Start:</label>
+  <input type="datetime-local" id="StartTime" name="StartTime" value="2021-01-01T00:00">
+  <label for="EndTime">Timeframe End:</label>
+  <input type="datetime-local" id="EndTime" name="EndTime" value="2022-01-01T00:00">
+  <button type="button" id="Submit">Submit</button>
+</form>
+
+<div id="TableContainer"></div>
+
+
+</html>

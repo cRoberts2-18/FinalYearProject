@@ -1,0 +1,105 @@
+<html>
+<style type="text/css">
+
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+ // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+
+function Dateformat(raw){
+        date = raw.substring(0,10);
+        date = date.concat(" ");
+        date = date.concat(raw.substring(11,16));
+        date = date.concat(":00");
+        return(date);
+}
+
+$(function () {
+        $("#Submit").click(function () {
+                var startraw = $("#StartTime").val();
+                var $start = Dateformat(startraw);
+                var endraw = $("#EndTime").val();
+                var $end = Dateformat(endraw);
+                var $type = $("#Chart").val();
+                var $X = $("#xAxis").val();
+                var $Y = $("#yAxis").val();
+
+
+        var jsonData = $.ajax({
+                method: "POST",
+                url: "creator.php",
+                data: { start:$start , end:$end, x:$X, y:$Y},
+                dataType:"json",
+                async: false,
+                success: function(jsonData)
+                {
+                        var data = new google.visualization.arrayToDataTable(jsonData);
+                        var options = {'height':500};
+                        if($type=="Bar"){
+                                var chart = new google.visualization.BarChart(document.getElementById('chartContainer'));
+                                chart.draw(data,options);
+                        }
+                        else if($type=="Column"){
+                                var chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
+                                chart.draw(data,options);
+                        }
+                        else if($type=="Line"){
+                                var chart = new google.visualization.LineChart(document.getElementById('chartContainer'));
+                                chart.draw(data,options);
+                        }
+
+                }
+        });
+    });
+});
+
+
+
+
+
+</script>
+<body>
+
+<form style="text-align:center">
+<label for-"ChartType">Chart Type: </label>
+<select id="Chart" name="chart">
+        <option value="Column">Bar Chart (Vertical)</option>
+        <option value="Bar">Bar Chart (Horizontal)</option>
+        <option value="Line">Line Chart</option>
+<select>
+<br>
+<label for="StartTime">Timeframe Start:</label>
+<input type="datetime-local" id="StartTime" name="StartTime" value="2021-01-01T00:00">
+<label for="EndTime">Timeframe End:</label>
+<input type="datetime-local" id="EndTime" name="EndTime" value="2022-01-01T00:00">
+
+
+<br>
+<label for-"xAxis">X-Axis:  </label>
+<select id="xAxis" name="xAxis">
+        <option value="Date">Date</option>
+        <option value="Temperature">Temperature</option>
+        <option value="Max Temp">Max Temp</option>
+        <option value="Min Temp">Min Temp</option>
+<select>
+<label for-"yAxis">Y-Axis:  </label>
+<select id="yAxis" name="yAxis">
+        <option value="Temperature">Temperature</option>
+        <option value="Max Temp">Max Temp</option>
+        <option value="Min Temp">Min Temp</option>
+<select>
+<br>
+<input type="Button" value="Submit" id="Submit">
+<input type="reset">
+
+</form>
+
+<div id="chartContainer"></div>
+
+</body>
+</html>		

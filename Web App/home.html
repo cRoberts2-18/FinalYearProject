@@ -1,0 +1,96 @@
+
+<html>
+<title>FruitSensor Weather</title>
+<style type="text/css">
+body{
+        background-image: url("background.png");
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+}
+header{
+        background-color: transparent;
+
+
+        height: 7%;
+        margin-top: 0px;
+        margin-right: 0px;
+    margin-left: 0px;
+}
+.right{
+        text-align: right;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 30px;
+}
+.tablink {
+  position: relative;
+  top: -18.9px;
+  background-color: #000000;
+  color: white;
+  float: left;
+  border: none;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  border-top: 1px solid #ffffff;
+  outline: none;
+  cursor: pointer;
+  padding: 0px 0px;
+  font-size: 17px;
+  width: 10%;
+  transition-duration: 0.2s;
+}
+.tablink:hover{
+  padding: 2px 2px;
+  position: relative;
+  top: -22.9px;
+  background-color: #ffffff;
+  color: black;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
+  border-top: 1px solid #000000;
+}
+div.frame{
+        position :fixed;
+        left :px;
+        top :110px;
+}
+
+</style>
+<header>
+
+<h2 class="right">FruitSensor Weather</h2>
+<button class="tablink" onclick="openPage(1)" id="defaultOpen">Table View</button>
+<button class="tablink" onclick="openPage(2)">Timeframe Select</button>
+<button class="tablink" onclick="openPage(3)">Default Charts</button>
+<button class="tablink" onclick="openPage(4)">Chart Creator</button>
+<script>
+function openPage(num){
+        if(num==1){
+                document.getElementById("page").src="table.php";
+        }
+        if(num==2){
+                document.getElementById("page").src="timeframe.html";
+        }
+        if(num==3){
+                document.getElementById("page").src="chart.php";
+        }
+        if(num==4){
+                document.getElementById("page").src="create.html";
+        }
+
+}
+</script>
+
+</header>
+<body>
+<div class="frame">
+<iframe src="table.php" id="page" title="description" style="border:none" height="600px" width="1515px">
+</div>
+</body>
+
+
+
+</html>
